@@ -1,0 +1,71 @@
+﻿@model ShopRosKvartal.Areas.AdminPanel.Models.ViewModels.Shop.Brands.ViewBrandDetails
+
+@{
+    ViewBag.Title = "Информация о производителе";
+}
+
+<section class="content">
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">@ViewBag.Title <strong>@Model.Name</strong></h3>
+                </div>
+
+                <div class="box-body">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            @Html.LabelFor(model => model.Name)
+                        </div>
+                        <div class="col-md-8">
+                            @Html.DisplayFor(model => model.Name)
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            @Html.LabelFor(model => model.ProductsCount)
+                        </div>
+                        <div class="col-md-8">
+                            @Html.DisplayFor(model => model.ProductsCount)
+                        </div>
+                    </div>
+
+                    @if (Model.Products.Count > 0)
+                    {
+                        <div class="row">
+                            <div class="col-md-4">
+                                @Html.LabelFor(model => model.Products)
+                            </div>
+                            <div class="col-md-8">
+                                @foreach (var item in Model.Products)
+                                {
+                                    <div class="row">
+                                        @item.Name
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="box-footer">
+                    @Html.ActionLink("Назад к списку брэндов", "Index", "Brands", null, new { @class = "btn btn-default" })
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+@section scripts{
+    <script>
+        $(function () {
+            $("#store").addClass("active");
+            $("#storebrands").addClass("active");
+            $("#storebrandsall").addClass("active");
+        });
+    </script>
+}

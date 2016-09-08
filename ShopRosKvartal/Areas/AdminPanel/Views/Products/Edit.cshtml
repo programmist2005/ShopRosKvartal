@@ -1,0 +1,232 @@
+﻿@model ShopRosKvartal.Areas.AdminPanel.Models.ViewModels.Shop.Products.ViewProductEdit
+
+@{
+    ViewBag.Title = "Редактирование товара";
+}
+
+<section class="content">
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">@ViewBag.Title</h3>
+                </div>
+
+                @using (Html.BeginForm("Edit", "Products", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+                {
+                    <div class="box-body">
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.Id)
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-sm-4" })
+                                <div class="col-sm-8">
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.BrandList, new { @class = "col-sm-4 control-label" })
+                                <div class="col-sm-8">
+                                    @Html.DropDownListFor(m => m.SelectedBrandId,
+                                        Model.BrandList as SelectList,
+                                        "не выбран",
+                                        htmlAttributes: new
+                                        {
+                                            @class = "form-control"
+                                        })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.VendorCode, htmlAttributes: new { @class = "control-label col-sm-4" })
+                                <div class="col-sm-8">
+                                    @Html.EditorFor(model => model.VendorCode, new { htmlAttributes = new { @class = "form-control", onkeyup = "this.value = this.value.replace (/[^0-9.]/, '')" } })
+                                    @Html.ValidationMessageFor(model => model.VendorCode, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-sm-4" })
+                                <div class="col-sm-8">
+                                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Weight, htmlAttributes: new { @class = "control-label col-sm-4" })
+                                <div class="col-sm-8">
+                                    @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control", onkeyup = "this.value = this.value.replace (/[^0-9]/, '')" } })
+                                    @Html.ValidationMessageFor(model => model.Weight, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.TasteList, new { @class = "col-sm-4 control-label" })
+                                <div class="col-sm-8">
+                                    @Html.DropDownListFor(m => m.SelectedTasteId,
+                                        Model.TasteList as SelectList,
+                                        "не выбран",
+                                        htmlAttributes: new
+                                        {
+                                            @class = "form-control"
+                                        })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Proteins, htmlAttributes: new { @class = "control-label col-sm-4" })
+                                <div class="col-sm-8">
+                                    @Html.EditorFor(model => model.Proteins, new { htmlAttributes = new { @class = "form-control", onkeyup = "this.value = this.value.replace (/[^0-9.]/, '')" } })
+                                    @Html.ValidationMessageFor(model => model.Proteins, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Fats, htmlAttributes: new { @class = "control-label col-sm-4" })
+                                <div class="col-sm-8">
+                                    @Html.EditorFor(model => model.Fats, new { htmlAttributes = new { @class = "form-control", onkeyup = "this.value = this.value.replace (/[^0-9.]/, '')" } })
+                                    @Html.ValidationMessageFor(model => model.Fats, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Carbohydrates, htmlAttributes: new { @class = "control-label col-sm-4" })
+                                <div class="col-sm-8">
+                                    @Html.EditorFor(model => model.Carbohydrates, new { htmlAttributes = new { @class = "form-control", onkeyup = "this.value = this.value.replace (/[^0-9.]/, '')" } })
+                                    @Html.ValidationMessageFor(model => model.Carbohydrates, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Kcal, htmlAttributes: new { @class = "control-label col-sm-4" })
+                                <div class="col-sm-8">
+                                    @Html.EditorFor(model => model.Kcal, new { htmlAttributes = new { @class = "form-control", onkeyup = "this.value = this.value.replace (/[^0-9]/, '')" } })
+                                    @Html.ValidationMessageFor(model => model.Kcal, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PortionsWeight, htmlAttributes: new { @class = "control-label col-sm-4" })
+                                <div class="col-sm-8">
+                                    @Html.EditorFor(model => model.PortionsWeight, new { htmlAttributes = new { @class = "form-control", onkeyup = "this.value = this.value.replace (/[^0-9]/, '')" } })
+                                    @Html.ValidationMessageFor(model => model.PortionsWeight, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PortionsCount, htmlAttributes: new { @class = "control-label col-sm-4" })
+                                <div class="col-sm-8">
+                                    @Html.EditorFor(model => model.PortionsCount, new { htmlAttributes = new { @class = "form-control", onkeyup = "this.value = this.value.replace (/[^0-9]/, '')" } })
+                                    @Html.ValidationMessageFor(model => model.PortionsCount, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+                            @*---=== Фото товара ===---*@
+                            <div class="form-group">
+                                <div class="col-xs-12">
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            <input type="file" class="filestyle" data-buttontext=" Find file" name="PhotoFile" id="PhotoFile" style="width: 100%;" accept="image/*" />
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="row hidden-lg hidden-md hidden-sm">
+                                                <br />
+                                            </div>
+                                            <button id="uploadPhotoCancel" class="btn btn-default btn-block" type="button">
+                                                Отменить загрузку
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-12">
+                                    @Html.ValidationMessageFor(model => model.PhotoFile, "", new { @class = "text-danger" })
+                                    <br />
+                                </div>
+
+                                <div class="col-xs-12">
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <p class="text-center">Фотография</p>
+                                            <div class="thumbnail">
+                                                @if (Model.PhotoName == null)
+                                                {
+                                                    <img src="@Url.Content(string.Format("~/Content/Images/Shop/Products/{0}", "unknown-product-200.png"))" class="img-responsive" alt="фотография не найдена" />
+                                                }
+                                                else
+                                                {
+                                                    <img src="@Url.Content(string.Format("~/Content/Images/Shop/Products/{0}", Model.PhotoName))" class="img-responsive" alt="фотография товара @Model.Name" />
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <div id="previewPhoto" hidden="hidden">
+                                                <p class="text-center">Загружаемая фотография</p>
+                                                <div class="thumbnail">
+                                                    <img id="prePhoto" class="img-responsive" src="#" alt="" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            @*---=== Фото товара ===---*@
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CategoriesAll, htmlAttributes: new { @class = "control-label col-sm-4" })
+                                <div class="col-sm-8">
+                                    @foreach (var category in Model.CategoriesAll)
+                                    {
+                                        string label = string.Format("{0}", category.Name);
+                                        <input type="checkbox" name="SelectedCategoriesId"
+                                               value="@category.Id"
+                                               @(Model.CategoriesSelected.Contains(category) ? "checked=\"checked\"" : "") />
+                                        @label
+                                        <br />
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="box-footer">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.ActionLink("Отмена", "Index", "Products", null, new { @class = "btn btn-default" })
+                        <button type="submit" class="btn btn-primary pull-right">Сохранить</button>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</section>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @*превью загружаемого изображения (фото)*@
+    <script src="~/Scripts/crate-product-preview-photo-show-cansel.js"></script>
+    @*input file style*@
+    <script src="~/Scripts/bootstrap-filestyle.min.js"></script>
+
+    <script>
+        //input file
+        $(":file").filestyle({ buttonBefore: true, buttonText: "_Файл" });
+
+        $(function () {
+            $("#store").addClass("active");
+            $("#storeproducts").addClass("active");
+            $("#storeproductsall").addClass("active");
+        });
+    </script>
+}

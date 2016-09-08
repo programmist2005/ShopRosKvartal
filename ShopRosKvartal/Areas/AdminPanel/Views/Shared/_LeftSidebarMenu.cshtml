@@ -1,0 +1,96 @@
+﻿@*---=== Sidebar menu ===---*@
+<ul class="sidebar-menu">
+    <li class="header text-center"><strong>Навигация</strong></li>
+    @*========================================================*@
+    <li id="home">
+        <a href="@Url.Action("Index", "Home", null)">
+            <i class="fa fa-home"></i> <span>Главная</span>
+        </a>
+    </li>
+    @*========================================================*@
+    <li id="store" class="treeview">
+        <a href="#">
+            <i class="fa fa-shopping-cart"></i>
+            <span>Магазин</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            @*========================================================*@
+            <li id="storecategories" class="treeview">
+                <a href="#">
+                    <i class="fa fa-circle"></i>
+                    <span>Категории товаров</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li id="storecategoriesall"><a href="@Url.Action("Index", "Categories", null)"><i class="fa fa-circle-o"></i> Все</a></li>
+                    <li id="storecategoriescreate"><a href="@Url.Action("Create", "Categories", null)"><i class="fa fa-circle-o"></i> Создать</a></li>
+                </ul>
+            </li>
+            @*========================================================*@
+            <li id="storeproducts" class="treeview">
+                <a href="#">
+                    <i class="fa fa-circle"></i>
+                    <span>Товары</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li id="storeproductsall"><a href="@Url.Action("Index", "Products", null)"><i class="fa fa-circle-o"></i> Все</a></li>
+                    <li id="storeproductscreate"><a href="@Url.Action("Create", "Products", null)"><i class="fa fa-circle-o"></i> Создать</a></li>
+                </ul>
+            </li>
+            @*========================================================*@
+            <li id="storebrands" class="treeview">
+                <a href="#">
+                    <i class="fa fa-circle"></i>
+                    <span>Производители</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li id="storebrandsall"><a href="@Url.Action("Index", "Brands", null)"><i class="fa fa-circle-o"></i> Все</a></li>
+                    <li id="storebrandscreate"><a href="@Url.Action("Create", "Brands", null)"><i class="fa fa-circle-o"></i> Создать</a></li>
+                </ul>
+            </li>
+            @*========================================================*@
+            <li id="storetastes" class="treeview">
+                <a href="#">
+                    <i class="fa fa-circle"></i>
+                    <span>Вкус товара</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li id="storetastesall"><a href="@Url.Action("Index", "Tastes", null)"><i class="fa fa-circle-o"></i> Все</a></li>
+                    <li id="storetastescreate"><a href="@Url.Action("Create", "Tastes", null)"><i class="fa fa-circle-o"></i> Создать</a></li>
+                </ul>
+            </li>
+            @*========================================================*@
+        </ul>
+    </li>
+    @*========================================================*@
+    @if (User.IsInRole("Администратор"))
+    {
+        <li id="sitetools" class="treeview">
+            <a href="#">
+                <i class="fa fa-cog"></i>
+                <span>Настройки сайта</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li id="sitetoolssmtp"><a href="@Url.Action("SMTPSettings", "SiteTools", null)"><i class="fa fa-envelope"></i> Почтовый протокол</a></li>
+            </ul>
+        </li>
+    }
+</ul>
+@*---=== Конец Sidebar menu ===---*@

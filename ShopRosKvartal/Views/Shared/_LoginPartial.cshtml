@@ -1,0 +1,54 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                @{
+                    string greeting = "";
+                    var hour = DateTime.Now.Hour;
+                    if (hour >= 4 && hour < 12)
+                    {
+                        greeting = "Доброе утро, ";
+                    }
+                    if (hour >= 12 && hour < 17)
+                    {
+                        greeting = "Добрый день, ";
+                    }
+                    if (hour >= 17 && hour < 22)
+                    {
+                        greeting = "Добрый вечер, ";
+                    }
+                    if (hour >= 22 || hour < 4)
+                    {
+                        greeting = "Доброй ночи, ";
+                    }
+                }
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@greeting @User.Identity.GetUserName() ! <i class="fa fa-angle-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li>@Html.ActionLink("Аккаунт", "Index", "Profile", null, null)</li>
+                    @if (User.IsInRole("Администратор") || User.IsInRole("Модератор"))
+                    {
+                        <li>@Html.ActionLink("Управление", "Index", new { area = "AdminPanel", controller = "Home" }, null)</li>
+                    }
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()">Выход</a></li>
+                </ul>
+            </li>
+        </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Вход <i class="fa fa-angle-down"></i></a>
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink("Войти", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                <li>@Html.ActionLink("Зарегистрироваться", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+            </ul>
+        </li>
+    </ul>
+}

@@ -1,0 +1,194 @@
+﻿@model ShopRosKvartal.Models.ViewModels.UserProfile.ViewUserProfileDetails
+
+@{
+    ViewBag.Title = "Профиль пользователя " + HttpContext.Current.User.Identity.Name;
+}
+
+<section id="blog" class="container">
+    <div class="center">
+        <h1>@ViewBag.Title</h1>
+        <p class="lead"><strong>@Model.FullName</strong></p>
+    </div>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="center">
+            <h3 class="text-danger">@ViewBag.Error</h3>
+        </div>
+    }
+
+    <div class="blog">
+        <div class="row">
+            @*Правая колонка*@
+            <div class="col-sm-4 col-md-3">
+
+                @*фото*@
+                <div class="row">
+                    <div class="col-xs-12">
+                        @{
+                            string phoroURL = "~/Content/Images/UserPhoto/" + Model.Photo;
+                        }
+                        <img class="img-responsive" src="@Url.Content(phoroURL)" alt="Аватар пользователя" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <hr />
+                </div>
+
+                @*пол*@
+                <div class="row">
+                    <div class="col-xs-12">
+                        <strong>@Html.LabelFor(m => m.Gender):</strong> @Model.Gender
+                    </div>
+                </div>
+
+                <div class="row">
+                    <hr />
+                </div>
+
+                @*Паспортные данные*@
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h3 class="text-center">
+                            <strong>Паспортные данные</strong>
+                        </h3>
+
+                        <br />
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <strong>@Html.LabelFor(m => m.DateOfBirth):</strong> @Model.DateOfBirth.ToShortDateString()
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <strong>@Html.LabelFor(m => m.PassportNumberAndSeries):</strong> @Model.PassportNumberAndSeries
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <strong>@Html.LabelFor(m => m.PassportIssuingDate):</strong> @Model.PassportIssuingDate.ToShortDateString()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <hr />
+                </div>
+
+            </div>
+            @*Правая колонка*@
+            @*==================*@
+            @*Левая колонка*@
+            <div class="col-sm-8 col-md-9">
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h3 class="text-center">
+                            <strong>Корзина</strong>
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <hr />
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h3 class="text-center">
+                            <strong>Последние покупки</strong>
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <hr />
+                </div>
+
+                @if (Model.ContactPhoneNumber != null
+                            || Model.ContactSkype != null
+                            || Model.ContactSocialNetworkLink != null)
+                {
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h3 class="text-center">
+                                <strong>Контакты</strong>
+                            </h3>
+
+                            <div class="row">
+                                <div class="col-xs-12 col-md-4">
+                                    <h3 class="text-center">
+                                        <strong>Телефоны</strong>
+                                    </h3>
+                                    @if (Model.ContactPhoneNumber != null)
+                                    {
+                                        for (int i = 0; i < Model.ContactPhoneNumber.Length; i++)
+                                        {
+                                            <p class="text-center">@Model.ContactPhoneNumber[i]</p>
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-xs-12 col-md-4">
+                                    <h3 class="text-center">
+                                        <strong>Скайп</strong>
+                                    </h3>
+                                    @if (Model.ContactSkype != null)
+                                    {
+                                        for (int i = 0; i < Model.ContactSkype.Length; i++)
+                                        {
+                                            <p class="text-center">@Model.ContactSkype[i]</p>
+                                        }
+                                    }
+                                </div>
+
+                                <div class="col-xs-12 col-md-4">
+                                    <h3 class="text-center">
+                                        <strong>Социальные сети</strong>
+                                    </h3>
+                                    @if (Model.ContactSocialNetworkLink != null)
+                                    {
+                                        for (int i = 0; i < Model.ContactSocialNetworkLink.Length; i++)
+                                        {
+                                            <p class="text-center">
+                                                <a href=@Model.ContactSocialNetworkLink[i] target="_blank">
+                                                    @Model.ContactSocialNetworkLink[i]
+                                                </a>
+                                            </p>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <hr />
+                    </div>
+                }
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h3 class="text-center">
+                            <strong>Адрес</strong>
+                        </h3>
+                        <p class="text-center">
+                            @Model.Adress
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <hr />
+                </div>
+
+            </div>
+            @*Левая колонка*@
+        </div>
+    </div>
+</section>

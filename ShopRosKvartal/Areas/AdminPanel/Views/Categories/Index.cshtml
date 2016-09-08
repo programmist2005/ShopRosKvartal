@@ -1,0 +1,86 @@
+﻿@model IEnumerable<ShopRosKvartal.Areas.AdminPanel.Models.ViewModels.Shop.Categories.ViewCategoryIndex>
+
+@{
+    ViewBag.Title = "Все категории";
+}
+
+<section class="content">
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">@ViewBag.Title</h3>
+                </div>
+
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-4 col-md-2">
+                            @Html.ActionLink("Создать категорию", "Create", "Categories", null, new { @class = "btn btn-success btn-block" })
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-4">
+                            @Html.DisplayNameFor(model => model.Name)
+                        </div>
+                        <div class="hidden-xs hidden-sm col-md-2">
+                            @Html.DisplayNameFor(model => model.Alias)
+                        </div>
+                        <div class="hidden-xs hidden-sm col-md-2">
+                            @Html.DisplayNameFor(model => model.Parent)
+                        </div>
+                        <div class="col-xs-6 сol-sm-6 col-md-4">
+                            Действия
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <br />
+                    </div>
+
+                    @foreach (var item in Model)
+                    {
+                        <div class="row">
+                            <div class="col-xs-6 сol-sm-6 col-md-4">
+                                <p>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </p>
+                            </div>
+                            <div class="hidden-xs hidden-sm col-md-2">
+                                <p>
+                                    @Html.DisplayFor(modelItem => item.Alias)
+                                </p>
+                            </div>
+                            <div class="hidden-xs hidden-sm col-md-2">
+                                <p>
+                                    @Html.DisplayFor(modelItem => item.Parent)
+                                </p>
+                            </div>
+                            <div class="col-xs-6 сol-sm-6 col-md-4">
+                                <p>
+                                    @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) |
+                                    @Html.ActionLink("Подробнее", "Details", new { id = item.Id }) |
+                                    @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
+                                </p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+@section scripts{
+    <script>
+        $(function () {
+            $("#store").addClass("active");
+            $("#storecategories").addClass("active");
+            $("#storecategoriesall").addClass("active");
+        });
+    </script>
+}

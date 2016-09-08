@@ -1,0 +1,526 @@
+﻿@model ShopRosKvartal.Models.ViewModels.UserProfile.ViewUserProfileCreate
+
+@{
+    ViewBag.Title = "Создание профиля пользователя";
+}
+
+@section css {
+    <link rel="stylesheet" href="~/Areas/AdminPanel/Content/Theme/plugins/datepicker/datepicker3.css">
+}
+
+<section id="blog" class="container">
+    <div class="center">
+        <h1>@ViewBag.Title</h1>
+        <p class="lead">Заполните ваши данные, чтобы совершать покупки в магазине</p>
+    </div>
+
+    <section id="loginForm">
+        @using (Html.BeginForm("Create", "Profile", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <hr />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p class="text-center"><strong>Заполните ваше полное имя</strong></p>
+                        </div>
+                    </div>
+
+                    @*===================================================================================*@
+                    @*---=== ФИО ===---*@
+                    @*---=== Имя ===---*@
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Name, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    @*---=== Имя ===---*@
+
+                    @*---=== Отчество ===---*@
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Patronymic, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(m => m.Patronymic, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Patronymic, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    @*---=== Отчество ===---*@
+
+                    @*---=== Фамилия ===---*@
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Surname, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Surname, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    @*---=== Фамилия ===---*@
+                    @*---=== ФИО ===---*@
+                    @*===================================================================================*@
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <hr />
+                            <p class="text-center"><strong>Укажите ваш пол</strong></p>
+                        </div>
+                    </div>
+
+                    @*===================================================================================*@
+                    @*---=== Пол пользователя ===---*@
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.GenderList, new { @class = "col-sm-4 control-label" })
+                        <div class="col-sm-8">
+                            @Html.DropDownListFor(m => m.SelectedId,
+                            Model.GenderList as SelectList,
+                            "не выбран",
+                            htmlAttributes: new
+                            {
+                                @class = "form-control"
+                            })
+                        </div>
+                    </div>
+                    @*---=== Пол пользователя ===---*@
+                    @*===================================================================================*@
+
+                </div>
+
+                <div class="col-sm-12 hidden-lg hidden-md">
+                    <hr />
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p class="text-center"><strong>Загрузите ваше фото</strong></p>
+                        </div>
+                    </div>
+
+                    @*===================================================================================*@
+                    @*---=== Фото пользователя ===---*@
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <input type="file" class="filestyle" data-buttontext=" Find file" name="FilePhoto" id="FilePhoto" style="width: 100%;" accept="image/*" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="row hidden-lg hidden-md hidden-sm">
+                                        <br />
+                                    </div>
+                                    <button id="uploadPhotoCancel" class="btn btn-default btn-block" type="button">
+                                        Отменить загрузку
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12">
+                            @Html.ValidationMessageFor(model => model.FilePhoto, "", new { @class = "text-danger" })
+                            <br />
+                        </div>
+
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <p class="text-center">Фотография</p>
+                                    <div class="thumbnail">
+                                        @if (Model.Photo == null)
+                                        {
+                                            <img src="@Url.Content(string.Format("~/Content/Images/UserPhoto/{0}", "unknown200.jpg"))" class="img-responsive" alt="фотография пользователя" />
+                                        }
+                                        else
+                                        {
+                                            <img src="@Url.Content(string.Format("~/Content/Images/UserPhoto/{0}", Model.Photo))" class="img-responsive" alt="фотография пользователя" />
+                                        }
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div id="previewPhoto" hidden="hidden">
+                                        <p class="text-center">Загружаемая фотография</p>
+                                        <div class="thumbnail">
+                                            <img id="prePhoto" class="img-responsive" src="#" alt="" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    @*---=== Фото пользователя ===---*@
+                    @*===================================================================================*@
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <hr />
+                    <p class="text-center"><strong>Заполните ваш адрес проживания</strong></p>
+                </div>
+            </div>
+
+            @*===================================================================================*@
+            @*---=== Место жительства ===---*@
+            @*---=== Страна ===---*@
+            <div class="form-group">
+                @Html.LabelFor(m => m.Country, new { @class = "col-sm-2 col-md-4 control-label" })
+                <div class="col-md-4 col-sm-10">
+                    @Html.TextBoxFor(m => m.Country, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Country, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            @*---=== Страна ===---*@
+
+            @*---=== Город ===---*@
+            <div class="form-group">
+                @Html.LabelFor(m => m.City, new { @class = "col-sm-2 col-md-4 control-label" })
+                <div class="col-md-4 col-sm-10">
+                    @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            @*---=== Город ===---*@
+
+            @*---=== Почтовый индекс ===---*@
+            <div class="form-group">
+                @Html.LabelFor(m => m.ZipCode, new { @class = "col-sm-2 col-md-4 control-label" })
+                <div class="col-md-4 col-sm-10">
+                    @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.ZipCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            @*---=== Почтовый индекс ===---*@
+
+            @*---=== Улица ===---*@
+            <div class="form-group">
+                @Html.LabelFor(m => m.Street, new { @class = "col-sm-2 col-md-4 control-label" })
+                <div class="col-md-4 col-sm-10">
+                    @Html.TextBoxFor(m => m.Street, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Street, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            @*---=== Улица ===---*@
+
+            @*---=== Дом ===---*@
+            <div class="form-group">
+                @Html.LabelFor(m => m.House, new { @class = "col-sm-2 col-md-4 control-label" })
+                <div class="col-md-4 col-sm-10">
+                    @if (Model.House == null || Model.House == 0)
+                    {
+                        @Html.TextBox("House", "", new { @class = "form-control" });
+                    }
+                    else
+                    {
+                        @Html.TextBox("House", Model.House, new { @class = "form-control" });
+                    }
+                    @*@Html.TextBoxFor(m => m.House, new { @class = "form-control" })*@
+                    @Html.ValidationMessageFor(m => m.House, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            @*---=== Дом ===---*@
+
+            @*---=== Квартира ===---*@
+            <div class="form-group">
+                @Html.LabelFor(m => m.Apartment, new { @class = "col-sm-2 col-md-4 control-label" })
+                <div class="col-md-4 col-sm-10">
+                    @Html.TextBoxFor(m => m.Apartment, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Apartment, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            @*---=== Квартира ===---*@
+            @*---=== Место жительства ===---*@
+            @*===================================================================================*@
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <hr />
+                    <p class="text-center"><strong>Заполните ваши паспортные данные</strong></p>
+                </div>
+            </div>
+
+            @*===================================================================================*@
+            @*---=== Паспортные данные ===---*@
+            @*---=== Серия и номер ===---*@
+            <div class="form-group">
+                @Html.LabelFor(m => m.PassportNumberAndSeries, new { @class = "col-sm-2 col-md-4 control-label" })
+                <div class="col-md-4 col-sm-10">
+                    @Html.TextBoxFor(m => m.PassportNumberAndSeries, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.PassportNumberAndSeries, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            @*---=== Серия и номер ===---*@
+
+            @*---=== Дата рождения ===---*@
+            <div class="form-group">
+                @Html.LabelFor(m => m.DateOfBirth, new { @class = "col-sm-2 col-md-4 control-label" })
+                <div class="col-md-4 col-sm-10">
+                    @{
+                    string DateOfBirth = "";
+                    if (Model.DateOfBirth.Year != 1)
+                    {
+                        DateOfBirth = Model.DateOfBirth.ToShortDateString();
+                    }
+                    }
+                    <div class="input-group date">
+                        <input id="datepicker1"
+                               name="DateOfBirth"
+                               type="text"
+                               class="form-control"
+                               value="@DateOfBirth"
+                               @*value=""*@
+                               placeholder=""
+                               data-date-format="dd.mm.yyyy" />
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            @*---=== Дата рождения ===---*@
+
+            @*---=== Дата выдачи паспорта ===---*@
+            <div class="form-group">
+                @Html.LabelFor(m => m.PassportIssuingDate, new { @class = "col-sm-2 col-md-4 control-label" })
+                <div class="col-md-4 col-sm-10">
+                    @{
+                    string PassportIssuingDate = "";
+                    if (Model.PassportIssuingDate.Year != 1)
+                    {
+                        PassportIssuingDate = Model.PassportIssuingDate.ToShortDateString();
+                    }
+                    }
+                    <div class="input-group date">
+                        <input id="datepicker2"
+                               name="PassportIssuingDate"
+                               type="text"
+                               class="form-control"
+                               value="@PassportIssuingDate"
+                               @*value=""*@
+                               placeholder=""
+                               data-date-format="dd.mm.yyyy" />
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.PassportIssuingDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            @*---=== Дата выдачи паспорта ===---*@
+            @*---=== Паспортные данные ===---*@
+            @*===================================================================================*@
+
+            <div class="row">
+
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <hr />
+                            <p class="text-center">Контактные телефоны</p>
+
+                            <div id="textBoxesPhones">
+                                @if (Model.ContactPhoneNumber != null) 
+                                {
+                                    for (int i = 0; i < Model.ContactPhoneNumber.Length; i++)
+                                    {
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <input class="form-control" type="text" name="ContactPhoneCountryCode" value="@Model.ContactPhoneCountryCode[i]">
+                                            </div>
+                                            <div class="col-xs-7">
+                                                <input class="form-control" type="text" name="ContactPhoneNumber" value="@Model.ContactPhoneNumber[i]">
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <button class="btn btn-danger btn-block" type="button"><strong>X</strong></button>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+
+                            <input type="button" id="addTextBoxPhones" value="Добавить номер" class="form-control btn btn-success" />
+                            <p class="text-danger">@ViewBag.ErrorCorrectPhones</p>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <hr />
+                            <p class="text-center">Скайп контакты</p>
+
+                            <div id="textBoxesSkypes">
+                                @if (Model.ContactSkype != null)
+                                {
+                                    for (int i = 0; i < Model.ContactSkype.Length; i++)
+                                    {
+                                        <div class="row">
+                                            <div class="col-xs-10">
+                                                <input class="form-control" type="text" name="ContactSkype" value="@Model.ContactSkype[i]">
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <button class="btn btn-danger btn-block" type="button"><strong>X</strong></button>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+
+                            <input type="button" id="addTextBoxSkypes" value="Добавить skype" class="form-control btn btn-success" />
+                            <p class="text-danger"></p>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <hr />
+                            <p class="text-center">Социальные сети</p>
+
+                            <div id="textBoxesSocial">
+                                @if (Model.ContactSocialNetworkLink != null)
+                                {
+                                    for (int i = 0; i < Model.ContactSocialNetworkLink.Length; i++)
+                                    {
+                                        <div class="row">
+                                            <div class="col-xs-10">
+                                                <input class="form-control" type="text" name="ContactSocialNetworkLink" value="@Model.ContactSocialNetworkLink[i]" placeholder="Ссылка">
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <button class="btn btn-danger btn-block" type="button"><strong>X</strong></button>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+
+                            <input type="button" id="addTextBoxSocial" value="Добавить ссылку соц.сетей" class="form-control btn btn-success" />
+                            <p class="text-danger">@ViewBag.ErrorCorrectSocialNetworkLink</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <hr />
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="col-md-offset-4 col-md-4 col-sm-offset-2 col-sm-8">
+                    <div class="row">
+
+                        <div class="col-sm-6 col-xs-12">
+                            <input type="submit" value="Создать" class="btn btn-success btn-block" />
+                            <br />
+                        </div>
+
+                        <div class="col-sm-6 col-xs-12">
+                            @Html.ActionLink("Отмена", "Index", "Home", null, new { @class = "btn btn-default btn-block" })
+                            <br />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </section>
+
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Areas/AdminPanel/Content/Theme/plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="~/Areas/AdminPanel/Content/Theme/plugins/datepicker/locales/bootstrap-datepicker.ru.js"></script>
+    @*Date picker*@
+    <script src="~/Scripts/create-profile-datepickers.js"></script>
+    @*превью загружаемого изображения (фото)*@
+    <script src="~/Scripts/create-profile-preview-photo-show-cansel.js"></script>
+    @*input file style*@
+    <script src="~/Scripts/bootstrap-filestyle.min.js"></script>
+
+    <script>
+        //input file
+        $(":file").filestyle({ buttonBefore: true, buttonText: "_Файл" });
+
+        //=======================================================================================
+        // добавление/удаление ктелефонного номера
+        // добавление
+        $('#addTextBoxPhones').click(function () {
+            $('#textBoxesPhones').append(
+                '<div class="row">' +
+                    '<div class="col-xs-3">' +
+                        '<input class="form-control" type="text" name="ContactPhoneCountryCode" value="" placeholder="+7/+38">' +
+                    '</div>' +
+                    '<div class="col-xs-7">' +
+                        '<input class="form-control" type="text" name="ContactPhoneNumber" value="" placeholder="номер телефона">' +
+                    '</div>' +
+                    '<div class="col-xs-2">' +
+                        '<button class="btn btn-danger btn-block" type="button"><strong>X</strong></button>' +
+                    '</div>' +
+                '</div>');
+        });
+        // удаление
+        $("#textBoxesPhones").on("click", ".btn-danger", function (e) {
+            var btn = $(e.currentTarget);
+            btn.closest(".row").remove();
+        });
+
+        //=======================================================================================
+        // добавление/удаление ктелефонного номера
+        // добавление
+        $('#addTextBoxSkypes').click(function () {
+            $('#textBoxesSkypes').append(
+                '<div class="row">' +
+                    '<div class="col-xs-10">' +
+                        '<input class="form-control" type="text" name="ContactSkype" value="">' +
+                    '</div>' +
+                    '<div class="col-xs-2">' +
+                        '<button class="btn btn-danger btn-block" type="button"><strong>X</strong></button>' +
+                    '</div>' +
+                '</div>');
+        });
+        // удаление
+        $("#textBoxesSkypes").on("click", ".btn-danger", function (e) {
+            var btn = $(e.currentTarget);
+            btn.closest(".row").remove();
+        });
+
+        //=======================================================================================
+        // добавление/удаление ктелефонного номера
+        // добавление
+        $('#addTextBoxSocial').click(function () {
+            $('#textBoxesSocial').append(
+                '<div class="row">' +
+                    '<div class="col-xs-10">' +
+                        '<input class="form-control" type="text" name="ContactSocialNetworkLink" value=""  placeholder="Ссылка">' +
+                    '</div>' +
+                    '<div class="col-xs-2">' +
+                        '<button class="btn btn-danger btn-block" type="button"><strong>X</strong></button>' +
+                    '</div>' +
+                '</div>');
+        });
+        // удаление
+        $("#textBoxesSocial").on("click", ".btn-danger", function (e) {
+            var btn = $(e.currentTarget);
+            btn.closest(".row").remove();
+        });
+    </script>
+}

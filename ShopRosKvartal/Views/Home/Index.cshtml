@@ -1,0 +1,149 @@
+﻿@model ShopRosKvartal.Models.ViewModels.Shop.Filters.ShopFilter
+
+@{
+    ViewBag.Title = "1";
+}
+
+@*---=== Main Slider ===---*@
+@*@Html.Partial("_MainSlider")*@
+@*---=== Конец Main Slider ===---*@
+
+@*фильтр*@
+<section id="feature">
+    <div class="container">
+        <div class="center wow fadeInDown">
+            <h2>Магазин</h2>
+            <p class="lead">Воспользуйтесь фильтрами для поиска нужного товара</p>
+        </div>
+        <div class="row">
+            @*категории*@
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                @Html.LabelFor(m => m.CategoriesList)
+                @Html.DropDownListFor(m => m.CategorySelectedId,
+                                Model.CategoriesList as SelectList,
+                            "Все категории",
+                            htmlAttributes: new
+                            {
+                                @class = "form-control",
+                                onchange = "AdditionalsChanged(this)"
+                            })
+            </div>
+            @*брэнды*@
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                @Html.LabelFor(m => m.BrandList)
+                @Html.DropDownListFor(m => m.BrandSelectedId,
+                                     Model.BrandList as SelectList,
+                            "Все брэнды",
+                            htmlAttributes: new
+                            {
+                                @class = "form-control",
+                                onchange = "AdditionalsChanged(this)"
+                            })
+            </div>
+            @*вкусы*@
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                @Html.LabelFor(m => m.TasteList)
+                @Html.DropDownListFor(m => m.TasteSelectedId,
+                                     Model.TasteList as SelectList,
+                            "Все категории",
+                            htmlAttributes: new
+                            {
+                                @class = "form-control",
+                                onchange = "AdditionalsChanged(this)"
+                            })
+            </div>
+            @*сортировка*@
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                @Html.LabelFor(m => m.SortingList)
+                @Html.DropDownListFor(m => m.SortingSelectedId,
+                                     Model.SortingList as SelectList,
+                            "Не выбрано",
+                            htmlAttributes: new
+                            {
+                                @class = "form-control",
+                                onchange = "AdditionalsChanged(this)"
+                            })
+            </div>
+            @*цена от*@
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                @Html.LabelFor(m => m.PriceFrom)
+                @Html.TextBoxFor(m => m.PriceFrom,
+                            htmlAttributes: new
+                            {
+                                @class = "form-control",
+                                onchange = "AdditionalsChanged(this)",
+                                onkeyup = "this.value = this.value.replace (/[^0-9,]/, '')"
+                            })
+            </div>
+            @*цена до*@
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                @Html.LabelFor(m => m.PriceTo)
+                @Html.TextBoxFor(m => m.PriceTo,
+                            htmlAttributes: new
+                            {
+                                @class = "form-control",
+                                onchange = "AdditionalsChanged(this)",
+                                onkeyup = "this.value = this.value.replace (/[^0-9,]/, '')"
+                            })
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<div id="BodyProducts">
+    @Html.Action("_ProductsList", "Home", null)
+</div>
+
+@section scripts{
+    <script>
+        // Скрипт обновленая частичного представления
+        function AdditionalsChanged() {
+            $.ajax({
+                url: '@Url.Action("_ProductsList", "Home", new { Model.CategorySelectedId,
+                                                                 Model.BrandSelectedId,
+                                                                 Model.TasteSelectedId,
+                                                                 Model.SortingSelectedId,
+                                                                 Model.PriceFrom,
+                                                                 Model.PriceTo
+                 })',
+                type: "POST",
+                data: {
+                    CategorySelectedId: $('#CategorySelectedId').val(),
+                    BrandSelectedId: $('#BrandSelectedId').val(),
+                    TasteSelectedId: $('#TasteSelectedId').val(),
+                    SortingSelectedId: $('#SortingSelectedId').val(),
+                    PriceFrom: $('#PriceFrom').val(),
+                    PriceTo: $('#PriceTo').val(),
+                },
+                success: function (result) {
+                    $('#BodyProducts').html(result);
+                }
+            })
+        }
+
+
+        // добавление товара в корзиру
+        // передача в AddToCard id товара и количество
+        function BtnClick(me) {
+            var id = "#quantity" + me.id;
+            //alert($(id).val());
+
+            $.ajax({
+                url: '@Url.Action("AddToCard", "Cart")',
+                        type: "POST",
+                        data: {
+                            id: me.id,
+                            quant: $(id).val(),
+                        },
+                        success: function (result) {
+                            $('#ShoppingCartLink').html(result);
+                           }
+                        })
+                }
+    </script>
+}
+
+
+
+

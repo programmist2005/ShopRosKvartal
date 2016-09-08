@@ -1,0 +1,48 @@
+﻿@model IEnumerable<ShopRosKvartal.Areas.AdminPanel.Models.ViewModels.Shop.Orders.ViewOrderListItem>
+
+@{
+    ViewBag.Title = "Главная";
+}
+
+<section class="content">
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">Заказы</h3>
+                </div>
+
+                <div class="box-body">
+                    @foreach (var order in Model)
+                    {
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-2">
+                                <strong>Заказ №@order.Id</strong>
+                            </div>
+                            <div class="col-xs-12 col-sm-5">
+                                <strong>от</strong> @order.UserFullName
+                            </div>
+                            <div class="col-xs-12 col-sm-2">
+                                <strong>цена</strong> @order.TotalPrice
+                            </div>
+                            <div class="col-xs-12 col-sm-3">
+                                <strong>@Html.ActionLink("Подробнее", "Details", new { id = order.Id })</strong>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+@section scripts{
+    <script>
+        $(function () {
+            $("#home").addClass("active");
+        });
+    </script>
+}

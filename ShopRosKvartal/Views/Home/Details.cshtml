@@ -1,0 +1,253 @@
+﻿@model ShopRosKvartal.Models.Shop.ShopProduct
+
+@{
+    ViewBag.Title = Model.Name + " " + Model.ShopProductsBrand.Name;
+}
+
+<section id="blog" class="container">
+    <div class="center">
+        <h1 class="text-danger">@Model.Name</h1>
+    </div>
+    <div class="blog">
+        <div class="row">
+            <div class="col-md-2 col-sm-4">
+                @{ string path = string.Format("~/Content/Images/Shop/Products/{0}", "unknown-product-200.png");
+                 string alter = "фотография не найдена";}
+                @if (Model.PhotoName != null)
+                {
+                    path = string.Format("~/Content/Images/Shop/Products/{0}", Model.PhotoName);
+                    if (Model.ShopProductsBrand != null)
+                    {
+                        alter = "фотография товара" + Model.ShopProductsBrand.Name + Model.Name;
+                    }
+                    else
+                    {
+                        alter = "фотография товара" + Model.Name;
+                    }
+                }
+                <img src="@Url.Content(path)" class="img-responsive center-block" alt="@alter" />
+            </div>
+            <div class="col-xs-12 hidden-sm hidden-md hidden-lg">
+                <hr />
+            </div>
+            <div class="col-md-10 col-sm-8">
+                <div class="row">
+
+                    <div class="col-md-6 col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <strong>Артикул:</strong>
+                            </div>
+                            <div class="col-sm-8">
+                                @Model.VendorCode
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <strong>Вес упаковки:</strong>
+                            </div>
+                            <div class="col-sm-8">
+                                @Model.Weight гр
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <strong>Производитель:</strong>
+                            </div>
+                            @if (Model.ShopProductsBrand != null)
+                            {
+                                <div class="col-sm-8">
+                                    @Model.ShopProductsBrand.Name
+                                </div>
+                            }
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <strong>Вкус:</strong>
+                            </div>
+                            @if (Model.ShopProductsTaste != null)
+                            {
+                                <div class="col-sm-8">
+                                    @Model.ShopProductsTaste.Name
+                                </div>
+                            }
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h2 class="text-danger">
+                                    Купить <strong>@Model.Name @Model.ShopProductsBrand.Name</strong>
+                                </h2>
+
+                                @{var currentprice = Model.ShopProductsPrices.Where(p => p.CurrentPrice).SingleOrDefault();}
+                                @if (currentprice != null)
+                                {
+                                    <h2><strong class="text-success">@currentprice.Price рублей</strong></h2>
+                                }
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        @{string textId = "quantity" + Model.Id;}
+                                        @Html.TextBox("Quantity", "1",
+                                                    htmlAttributes: new
+                                                    {
+                                                        @class = "form-control",
+                                                        id = textId,
+                                                        onkeyup = "this.value = this.value.replace (/[^0-9]/, '')"
+                                                    })
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <p class="text-center">
+                                            <input value="Купить" id="@Model.Id" type="button" class="btn btn-block btn-success" onclick="BtnClick(this)">
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 hidden-md hidden-lg">
+                        <hr />
+                    </div>
+
+                    <div class="col-md-6 col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <strong>Протеины:</strong>
+                            </div>
+                            <div class="col-sm-8">
+                                @Model.Proteins гр
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <strong>Жиры:</strong>
+                            </div>
+                            <div class="col-sm-8">
+                                @Model.Fats гр
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <strong>Углеводы:</strong>
+                            </div>
+                            <div class="col-sm-8">
+                                @Model.Carbohydrates гр
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <strong>Энергетическая ценность:</strong>
+                            </div>
+                            <div class="col-sm-8">
+                                @Model.Kcal ккал
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <strong>Вес порции:</strong>
+                            </div>
+                            <div class="col-sm-8">
+                                @Model.PortionsWeight гр
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <strong>Количество порций:</strong>
+                            </div>
+                            <div class="col-sm-8">
+                                @Model.PortionsCount
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <hr />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <strong>Категории:</strong>
+                <ul>
+                    @foreach (var item in Model.ShopCategories)
+                    {
+                        <li>@item.Name</li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <hr />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                @Html.ActionLink("Вернуться в магазин", "Index", "Home", null, new { @class = "btn btn-primary" })
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <hr />
+            </div>
+        </div>
+
+        <div class="row media reply_section">
+            <div class="col-md-12">
+                <h3><strong>Описание:</strong></h3>
+                <p>@Html.Raw(Model.Description.Replace(Environment.NewLine, "<br/>"))</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <hr />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                @Html.ActionLink("Вернуться в магазин", "Index", "Home", null, new { @class = "btn btn-primary" })
+            </div>
+        </div>
+
+    </div>
+
+</section>
+@section scripts{
+    <script>
+        // добавление товара в корзиру
+        // передача в AddToCard id товара и количество
+        function BtnClick(me) {
+            var id = "#quantity" + me.id;
+            //alert($(id).val());
+
+            $.ajax({
+                url: '@Url.Action("AddToCard", "Cart")',
+                type: "POST",
+                data: {
+                    id: me.id,
+                    quant: $(id).val(),
+                },
+                success: function (result) {
+                    $('#ShoppingCartLink').html(result);
+                }
+            })
+        }
+    </script>
+}

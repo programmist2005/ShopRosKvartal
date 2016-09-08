@@ -1,0 +1,76 @@
+﻿@model IEnumerable<ShopRosKvartal.Models.ViewModels.Shop.Product.ViewProductCatalog>
+
+@*контент*@
+<section id="recent-works">
+    <div class="container">
+        @if (Model.Count() > 0)
+        {
+            <div class="center wow fadeInDown">
+                <br />
+                <h2>Товары</h2>
+            </div>
+            <div class="row">
+
+                @foreach (var prod in Model)
+                {
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        <a href="@Url.Action("Details", "Home", new { alias = prod.Alias })" style="display:block">
+                            <h3 class="text-center"><strong>@prod.Name</strong></h3>
+                            <p class="text-center">
+                                @if (prod.PhotoName == null)
+                                {
+                                    <img src="@Url.Content(string.Format("~/Content/Images/Shop/Products/{0}", "unknown-product-200.png"))" class="img-responsive center-block" style="height:200px" alt="фотография не найдена" />
+                                }
+                                else
+                                {
+                                    <img src="@Url.Content(string.Format("~/Content/Images/Shop/Products/{0}", prod.PhotoName))" class="img-responsive center-block" style="height:200px" alt="фотография товара @prod.Name" />
+                                }
+                            </p>
+                            <h3 class="text-center text-success"><strong>@prod.Price</strong></h3>
+                            <p class="text-center">
+                                Вкус: <strong>@prod.Taste</strong>
+                            </p>
+                        </a>
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <p class="text-center">
+                                    <input value="Купить" id="@prod.Id" type="button" class="btn btn-block btn-success" onclick="BtnClick(this)">
+                                </p>
+                            </div>
+                            <div class="col-xs-4">
+                                @{string textId = "quantity" + prod.Id;}
+                                @Html.TextBoxFor(m => prod.Quantity,
+                                htmlAttributes: new
+                                {
+                                    @class = "form-control", id =textId,
+                                    onkeyup = "this.value = this.value.replace (/[^0-9]/, '')"
+                                })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <br />
+                            </div>
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+        }
+        else
+        {
+            <div class="center wow fadeInDown">
+                <br />
+                <h2>Нет совпадений</h2>
+                <p>Измените значения фильтров</p>
+            </div>
+        }
+    </div>
+</section>
+
+
+
+
+

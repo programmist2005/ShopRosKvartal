@@ -1,0 +1,85 @@
+﻿@model ShopRosKvartal.Areas.AdminPanel.Models.ViewModels.Shop.Categories.ViewCategoryEdit
+
+@{
+    ViewBag.Title = "Редактирование категории товаров " + "\"" + Model.Name + "\"";
+}
+
+<section class="content">
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">@ViewBag.Title</h3>
+                </div>
+
+                @using (Html.BeginForm("Edit", "Categories", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    <div class="box-body">
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m=>m.Id)
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.CategoriesList, new { @class = "col-sm-4 control-label" })
+                            <div class="col-sm-8">
+                                @Html.DropDownListFor(m => m.SelectedId,
+                                        Model.CategoriesList as SelectList,
+                                        "не выбрана",
+                                        htmlAttributes: new
+                                        {
+                                            @class = "form-control"
+                                        })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Alias, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Alias, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Alias, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @style = "resize: none;", @rows = "5" })
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="box-footer">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="box-footer">
+                            @Html.ActionLink("Отмена", "Index", "Categories", null, new { @class = "btn btn-default" })
+                            <button type="submit" class="btn btn-primary pull-right">Редактировать</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</section>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+            $(function () {
+                $("#store").addClass("active");
+                $("#storecategories").addClass("active");
+                $("#storecategoriesall").addClass("active");
+            });
+    </script>
+}

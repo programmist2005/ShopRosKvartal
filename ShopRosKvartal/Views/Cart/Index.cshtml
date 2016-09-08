@@ -1,0 +1,192 @@
+﻿@model ShopRosKvartal.Models.ViewModels.Shop.ShoppingCart.ViewShoppingCart
+
+@{
+    ViewBag.Title = "Корзина покупок";
+    decimal totalPrice = 0;
+}
+
+<section class="pricing-page">
+    <div class="container">
+        <div class="center">
+            <h2>@ViewBag.Title</h2>
+            @if (Model != null && Model.Products != null && Model.Products.Count > 0)
+            {
+                <p class="lead">Всего товаров в корзине: @Model.CountProducts</p>
+            }
+        </div>
+        <div class="pricing-area text-center">
+            <div class="row">
+                <div class="col-sm-12 plan price-seven wow fadeInDown">
+                    <ul>
+                        <li class="heading-seven hidden-xs">
+                            <div class="row">
+                                <div class="col-md-2 col-sm-2">
+                                    <span>Фотография</span>
+                                </div>
+                                <div class="col-md-2 col-sm-2">
+                                    <span>Название</span>
+                                </div>
+                                <div class="col-md-2 col-sm-2">
+                                    <span>Цена</span>
+                                </div>
+                                <div class="col-md-2 col-sm-2">
+                                    <span>Количество</span>
+                                </div>
+                                <div class="col-md-2 col-sm-2">
+                                    <span>Всего</span>
+                                </div>
+                                <div class="col-md-2 col-sm-2">
+                                    <span>Действия</span>
+                                </div>
+                            </div>
+
+                        </li>
+                        @if (Model != null && Model.Products != null && Model.Products.Count > 0)
+                        {
+                            foreach (var product in Model.Products)
+                            {
+                                <li id="box">
+                                    <div class="row">
+                                        <div class="col-md-2 col-sm-2 col-xs-6">
+                                            @if (product.PhotoName == null)
+                                            {
+                                                <img src="@Url.Content(string.Format("~/Content/Images/Shop/Products/{0}", "unknown-product-200.png"))" class="img-responsive center-block hidden-xs" style="max-height:100px" alt="фотография не найдена" />
+                                                <img src="@Url.Content(string.Format("~/Content/Images/Shop/Products/{0}", "unknown-product-200.png"))" class="img-responsive center-block hidden-lg hidden-md hidden-sm" alt="фотография не найдена" />
+                                            }
+                                            else
+                                            {
+                                                <img src="@Url.Content(string.Format("~/Content/Images/Shop/Products/{0}", product.PhotoName))" class="img-responsive center-block hidden-xs" style="max-height:100px" alt="фотография товара @product.Name" />
+                                                <img src="@Url.Content(string.Format("~/Content/Images/Shop/Products/{0}", product.PhotoName))" class="img-responsive center-block hidden-lg hidden-md hidden-sm" alt="фотография товара @product.Name" />
+                                            }
+                                        </div>
+                                        <div class="col-md-2 col-sm-2 col-xs-6">
+                                            <strong class="hidden-lg hidden-md hidden-sm">Название:</strong>
+                                            @product.Name
+                                            <div class="row hidden-lg hidden-md hidden-sm">
+                                                <br />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 col-sm-2 col-xs-6">
+                                            <strong class="hidden-lg hidden-md hidden-sm">Цена:</strong>
+                                            @product.PriceOne
+                                            <div class="row hidden-lg hidden-md hidden-sm">
+                                                <br />
+                                            </div>
+                                        </div>
+                                        <div class="row hidden-lg hidden-md hidden-sm">
+                                            <br />
+                                        </div>
+                                        <div class="col-md-2 col-sm-2 col-xs-6">
+                                            <strong class="hidden-lg hidden-md hidden-sm">Количество:</strong>
+                                            @{string textId = product.Id.ToString();}
+                                            @Html.TextBoxFor(m => product.Quantity,
+                                                    htmlAttributes: new
+                                                    {
+                                                        @class = "form-control",
+                                                        id = textId,
+                                                        onchange = "ChangedQuantity(this)",
+                                                        onkeyup = "this.value = this.value.replace (/[^0-9]/, '')"
+                                                    })
+                                            <div class="row hidden-lg hidden-md hidden-sm">
+                                                <br />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 col-sm-2 col-xs-6">
+                                            <strong class="hidden-lg hidden-md hidden-sm">Всего:</strong>
+                                            @{totalPrice = totalPrice + product.PriceTotal;}
+                                            @product.PriceTotal
+                                            <div class="row hidden-lg hidden-md hidden-sm">
+                                                <br />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 col-sm-2 col-xs-12">
+                                            <strong class="hidden-lg hidden-md hidden-sm">Действия:</strong>
+                                            @Ajax.ActionLink("Удалить", "RemoveProductFromCart", "Cart", new { id = product.Id },
+                                                            new AjaxOptions()
+                                                            {
+                                                                HttpMethod = "Post",
+                                                                Confirm = "Удалить продукт?",
+                                                                OnComplete = "deleteComplete(this)"
+                                                            }, new { id = "delete", @class = "btn btn-danger" })
+                                            <div class="row hidden-lg hidden-md hidden-sm">
+                                                <br />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+
+                            <li>
+                                <div class="row">
+                                    <div class="col-sm-8 text-right hidden-xs">
+                                        Итого к оплате:
+                                    </div>
+                                    <div class="col-sm-8 text-center hidden-lg hidden-md hidden-sm">
+                                        Итого к оплате:
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <strong>@totalPrice</strong>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <br />
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li class="plan-action">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <a href="@Url.Action("CleanCard", "Cart", null)" class="btn btn-primary">Очистить корзину</a>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <a href="@Url.Action("Index", "Order", null)" class="btn btn-primary">Оформить заказ</a>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>Корзина пуста</li>
+                        }
+
+
+                    </ul>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jquery-unobtrusive-ajax")
+
+    <script>
+        //функуция удаления разметки удаленной записи...
+        function deleteComplete(delButton) {
+            $(delButton).closest("#box").remove();
+        }
+
+        function ChangedQuantity(me) {
+            var id = "#" + me.id;
+            //var aaaa = "Id = " + me.id + ", занчение " + $(id).val();
+            //alert(aaaa);
+            //alert($(id).val());
+
+            $.ajax({
+                url: '@Url.Action("EditProductInCart", "Cart")',
+                type: "POST",
+                data: {
+                    id: me.id,
+                    quant: $(id).val(),
+                },
+                success: function (result) {
+                    $('.homepage').html(result);
+                }
+            })
+        }
+    </script>
+}

@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "Email-адрес успешно подтвержден";
+}
+
+<section id="blog" class="container">
+    <div class="center">
+        <h1>@ViewBag.Title</h1>
+        <p class="lead">Поздравляем, Вы успешно прошли подтверждение Email-адреса!</p>
+        @Html.ActionLink("На главную", "Index", "Home", null, new { @class = "btn btn-primary" })
+    </div>
+</section>

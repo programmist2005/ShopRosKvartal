@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Email-адрес не удалось подтвердить";
+}
+
+<section id="blog" class="container">
+    <div class="center">
+        <h1>@ViewBag.Title</h1>
+        <p class="lead">Невозможно выполнить подтверждение Email-адреса!</p>
+        <p class="lead">Коды активации не совпадают!</p>
+        <p class="lead">Повторите попытку активации. Для этого в настройках личного профиля воспользуйтесь функцией "Подтверждение Email-адреса"</p>
+        @Html.ActionLink("На главную", "Index", "Home", null, new { @class = "btn btn-primary" })
+    </div>
+</section>

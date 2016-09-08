@@ -1,0 +1,72 @@
+﻿@model IEnumerable<ShopRosKvartal.Models.Shop.ShopProductsTaste>
+
+@{
+    ViewBag.Title = "Все вкусы";
+}
+
+<section class="content">
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">@ViewBag.Title</h3>
+                </div>
+
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            @Html.ActionLink("Создать вкус", "Create", "Tastes", null, new { @class = "btn btn-success btn-block" })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <hr />
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            Название
+                        </div>
+                        <div class="col-xs-6 сol-sm-6 col-md-6">
+                            Действия
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <hr />
+                    </div>
+
+                    @foreach (var item in Model)
+                    {
+                        <div class="row">
+                            <div class="col-xs-6 сol-sm-6 col-md-6">
+                                <p>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </p>
+                            </div>
+                            <div class="col-xs-6 сol-sm-6 col-md-6">
+                                <p>
+                                    @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) |
+                                    @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
+                                </p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+@section scripts{
+    <script>
+        $(function () {
+            $("#store").addClass("active");
+            $("#storetastes").addClass("active");
+            $("#storetastesall").addClass("active");
+        });
+    </script>
+
+}

@@ -1,0 +1,85 @@
+﻿@model ShopRosKvartal.Models.SiteTools.ToolsSMTPSetting
+
+@{
+    ViewBag.Title = "Протокол передачи почты (SMTP)";
+}
+
+<section class="content">
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">Информация о настройках протокола (SMTP)</h3>
+                </div>
+
+                <form class="form-horizontal">
+                    <div class="box-body">
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EmailFrom, htmlAttributes: new { @class = "col-md-4 col-sm-6" })
+                            <div class="col-md-8 col-sm-6">
+                                @Html.DisplayFor(model => model.EmailFrom)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "col-md-4 col-sm-6" })
+                            <div class="col-md-8 col-sm-6">
+                                @Html.DisplayFor(model => model.UserName)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "col-md-4 col-sm-6" })
+                            <div class="col-md-8 col-sm-6">
+                                @Html.DisplayFor(model => model.Password)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Host, htmlAttributes: new { @class = "col-md-4 col-sm-6" })
+                            <div class="col-md-8 col-sm-6">
+                                @Html.DisplayFor(model => model.Host)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Port, htmlAttributes: new { @class = "col-md-4 col-sm-6" })
+                            <div class="col-md-8 col-sm-6">
+                                @Html.DisplayFor(model => model.Port)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EnableSsl, htmlAttributes: new { @class = "col-md-4 col-sm-6" })
+                            <div class="col-md-8 col-sm-6 text-muted">
+                                @{string textSSL = "Нет";}
+                                @if (Model.EnableSsl)
+                                {
+                                    textSSL = "Да";
+                                }
+                                @textSSL
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+
+                <div class="box-footer">
+                    @Html.ActionLink("Настройка SMTP", "SMTPSettingsEdit", "SiteTools", null, new { @class = "btn btn-primary pull-right" })
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+@section scripts{
+    <script>
+        $(function () {
+            $("#sitetools").addClass("active");
+            $("#sitetoolssmtp").addClass("active");
+        });
+    </script>
+}

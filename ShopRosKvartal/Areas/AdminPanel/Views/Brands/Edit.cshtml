@@ -1,0 +1,52 @@
+﻿@model ShopRosKvartal.Areas.AdminPanel.Models.ViewModels.Shop.Brands.ViewBrandEdit
+
+@{
+    ViewBag.Title = "Редактирование производителя товаров";
+}
+
+<section class="content">
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">@ViewBag.Title</h3>
+                </div>
+
+                @using (Html.BeginForm("Edit", "Brands", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    <div class="box-body">
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.Id)
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="box-footer">
+                            @Html.ActionLink("Отмена", "Index", "Brands", null, new { @class = "btn btn-default" })
+                            <button type="submit" class="btn btn-primary pull-right">Сохранить</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</section>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+            $(function () {
+                $("#store").addClass("active");
+                $("#storebrands").addClass("active");
+                $("#storebrandsall").addClass("active");
+            });
+    </script>
+}

@@ -1,0 +1,80 @@
+﻿@model ShopRosKvartal.Areas.AdminPanel.Models.ViewModels.Shop.Orders.ViewOrder
+
+@{
+    ViewBag.Title = "Информаци о заказе";
+}
+
+<section class="content">
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">@ViewBag.Title №@Model.Id на сумму @Model.PriceTotal от @Model.DateCreation.ToShortDateString()</h3>
+                    <p>Покупатель: @Model.UserFullName</p>
+                </div>
+
+                <div class="box-body">
+                    @foreach (var item in Model.Products)
+                    {
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-8 col-md-4">
+                                <strong>@item.Name (@item.Brand)</strong>
+                            </div>
+                            <div class="col-xs-12 col-sm-4 col-md-2">
+                                Артикул: <strong>@item.VendorCode</strong>
+                            </div>
+                            <div class="col-xs-12 col-sm-4 col-md-2">
+                                Стоимость: @item.PriceOne
+                            </div>
+                            <div class="col-xs-12 col-sm-4 col-md-2">
+                                Количество: <strong>@item.Quantity</strong>
+                            </div>
+                            <div class="col-xs-12 col-sm-4 col-md-2">
+                                Цена: <strong>@item.PriceAll</strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <hr />
+                            </div>
+                        </div>
+
+                    }
+
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-offset-8 col-sm-4 col-md-offset-10 col-md-2">
+                            Итого: <strong>@Model.PriceTotal</strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <hr />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p class="text-center">Информация об отправке товара</p>
+                            <p>Адрес: @Model.Adress</p>
+                            <p>Паспортные данные: @Model.Passport</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="box-footer">
+                    @Html.ActionLink("К списку заказов", "Index", "Home", null, new { @class = "btn btn-default" })
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+@section scripts{
+    <script>
+        $(function () {
+            $("#home").addClass("active");
+        });
+    </script>
+}

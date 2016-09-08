@@ -1,0 +1,234 @@
+﻿@model ShopRosKvartal.Models.Shop.ShopProduct
+
+@{
+    ViewBag.Title = "Удаление товара";
+}
+
+<section class="content">
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">@ViewBag.Title <strong>@Model.Name</strong></h3>
+                </div>
+
+                @using (Html.BeginForm("Delete", "Products", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.Id)
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-2 col-sm-4">
+                                @if (Model.PhotoName == null)
+                                {
+                                    <img src="@Url.Content(string.Format("~/Content/Images/Shop/Products/{0}", "unknown-product-200.png"))" class="img-responsive" alt="фотография не найдена" />
+                                }
+                                else
+                                {
+                                    <img src="@Url.Content(string.Format("~/Content/Images/Shop/Products/{0}", Model.PhotoName))" class="img-responsive" alt="фотография товара @Model.ShopProductsBrand.Name @Model.Name" />
+                                }
+                            </div>
+                            <div class="col-md-6 col-sm-8">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <strong>Артикул:</strong>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        @Model.VendorCode
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <strong>Вес упаковки:</strong>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        @Model.Weight гр
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <strong>Производитель:</strong>
+                                    </div>
+                                    @if (Model.ShopProductsBrand != null)
+                                    {
+                                        <div class="col-sm-8">
+                                            @Model.ShopProductsBrand.Name
+                                        </div>
+                                    }
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <strong>Вкус:</strong>
+                                    </div>
+                                    @if (Model.ShopProductsTaste != null)
+                                    {
+                                        <div class="col-sm-8">
+                                            @Model.ShopProductsTaste.Name
+                                        </div>
+                                    }
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <strong>Текущая цена:</strong>
+                                    </div>
+                                    @{var currentprice = Model.ShopProductsPrices.Where(p => p.CurrentPrice).SingleOrDefault();}
+                                    @if (currentprice != null)
+                                    {
+                                        <div class="col-sm-8">
+                                            @currentprice.Price рублей
+                                        </div>
+                                    }
+                                </div>
+
+                                <div class="row">
+                                    <hr />
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <strong>Протеины:</strong>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        @Model.Proteins гр
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <strong>Жиры:</strong>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        @Model.Fats гр
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <strong>Углеводы:</strong>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        @Model.Carbohydrates гр
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <strong>Энергетическая ценность:</strong>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        @Model.Kcal ккал
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <strong>Вес порции:</strong>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        @Model.PortionsWeight гр
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <strong>Количество порций:</strong>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        @Model.PortionsCount
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 hidden-md hidden-lg">
+                                <br />
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <strong>Категории:</strong>
+                                        <ul>
+                                            @foreach (var item in Model.ShopCategories)
+                                            {
+                                                <li>@item.Name</li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <br />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-10 col-lg-6">
+                                <strong>Цены:</strong>
+                                <ul>
+                                    @foreach (var item in Model.ShopProductsPrices)
+                                    {
+                                        string text = "";
+                                        if (item.CurrentPrice)
+                                        {
+                                            text = "text-success";
+                                        }
+                                        <li class="@text">
+                                            <div class="col-xs-12 col-sm-2">
+                                                @item.Price
+                                            </div>
+                                            <div class="col-xs-12 col-sm-2">
+                                                @item.DateSet.ToShortDateString()
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <br />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <strong>Описание:</strong>
+                                <p>@Html.Raw(Model.Description.Replace(Environment.NewLine, "<br/>"))</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <strong>Дата создания:</strong>
+                            </div>
+                            <div class="col-sm-8">
+                                @Model.DateCreation.ToShortDateString()
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="box-footer">
+                        @Html.ActionLink("К списку товаров", "Index", "Products", null, new { @class = "btn btn-default" })
+                        <button type="submit" class="btn btn-danger pull-right">Удалить</button>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</section>
+@section scripts{
+    <script>
+        $(function () {
+            $("#store").addClass("active");
+            $("#storebrands").addClass("active");
+            $("#storebrandsall").addClass("active");
+        });
+    </script>
+}

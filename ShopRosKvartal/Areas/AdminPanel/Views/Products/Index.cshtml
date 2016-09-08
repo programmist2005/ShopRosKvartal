@@ -1,0 +1,123 @@
+﻿@model IEnumerable<ShopRosKvartal.Areas.AdminPanel.Models.ViewModels.Shop.Products.ViewProducts>
+
+@{
+    ViewBag.Title = "Все товары";
+}
+
+<section class="content">
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">@ViewBag.Title</h3>
+                </div>
+
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-4 col-md-2">
+                            @Html.ActionLink("Создать товар", "Create", "Products", null, new { @class = "btn btn-success btn-block" })
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div class="row hidden-xs hidden-sm">
+                        <div class="col-md-3">
+                            <strong>Название</strong>
+                        </div>
+                        <div class="col-md-1">
+                            <strong>Фото</strong>
+                        </div>
+                        <div class="col-md-2">
+                            <strong>Категории</strong>
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Производитель</strong>
+                        </div>
+                        <div class="col-md-1">
+                            <strong>Цена</strong>
+                        </div>
+                        <div class="col-md-2">
+                            <strong>Действия</strong>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <br />
+                    </div>
+
+                    @foreach (var item in Model)
+                    {
+                        <div class="row">
+                            <div class="col-md-3">
+                                <strong class="hidden-md hidden-lg">Название:</strong> <p>@item.Name</p>
+                            </div>
+                            <div class="col-md-1 col-xs-6">
+                                <strong class="hidden-md hidden-lg">Фото:</strong>
+                                @if (item.PhotoName == null)
+                                {
+                                    <img src="@Url.Content(string.Format("~/Content/Images/Shop/Products/{0}", "unknown-product-200.png"))" class="img-responsive hidden-sm hidden-xs" style="max-height:50px" alt="фотография не найдена" />
+                                    <img src="@Url.Content(string.Format("~/Content/Images/Shop/Products/{0}", "unknown-product-200.png"))" class="img-responsive hidden-md hidden-lg" alt="фотография не найдена" />
+                                }
+                                else
+                                {
+                                    <img src="@Url.Content(string.Format("~/Content/Images/Shop/Products/{0}", item.PhotoName))" class="img-responsive hidden-sm hidden-xs" style="max-height:50px" alt="фотография товара @item.Brand @item.Name" />
+                                    <img src="@Url.Content(string.Format("~/Content/Images/Shop/Products/{0}", item.PhotoName))" class="img-responsive hidden-md hidden-lg" alt="фотография товара @item.Brand @item.Name" />
+                                }
+                            </div>
+                            <div class="col-md-2">
+                                @if (item.ShopCategories.Count > 0)
+                                {
+                                    <strong class="hidden-md hidden-lg">Категории:</strong>
+                                    foreach (var category in item.ShopCategories)
+                                    {
+                                        <p>
+                                            @category
+                                        </p>
+                                    }
+                                }
+                            </div>
+                            <div class="col-md-3">
+                                <strong class="hidden-md hidden-lg">Производитель:</strong> <p>@item.Brand</p>
+                            </div>
+                            <div class="col-md-1">
+                                <strong class="hidden-md hidden-lg">Цена:</strong> <p>@item.Price</p>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="dropdown">
+                                    <button class="btn btn-primary btn-block dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        Действия
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                        <li>@Html.ActionLink("Редактировать", "Edit", new { id = item.Id })</li>
+                                        <li>@Html.ActionLink("Подробнее", "Details", new { id = item.Id })</li>
+                                        <li>@Html.ActionLink("Новая цена", "Create", "Prices", new { id = item.Id }, null)</li>
+                                        <li role="separator" class="divider"></li>
+                                        <li>@Html.ActionLink("Удалить", "Delete", new { id = item.Id })</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <hr />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+@section scripts{
+    <script>
+        $(function () {
+            $("#store").addClass("active");
+            $("#storeproducts").addClass("active");
+            $("#storeproductsall").addClass("active");
+        });
+    </script>
+}

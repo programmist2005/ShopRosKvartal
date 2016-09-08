@@ -1,0 +1,78 @@
+﻿@model ShopRosKvartal.Areas.AdminPanel.Models.ViewModels.Shop.Categories.ViewCategoryDetail
+
+@{
+    ViewBag.Title = "Информация о категории";
+}
+
+<section class="content">
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-header with-border text-center">
+                    <h3 class="box-title">@ViewBag.Title <strong>@Model.Name</strong></h3>
+                </div>
+
+                <div class="box-body">
+
+                    @if (Model.Description != null)
+                    {
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                @Html.LabelFor(model => model.Description):
+                                <p>@Html.Raw(Model.Description.Replace(Environment.NewLine, "<br/>"))</p>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            @Html.LabelFor(model => model.Alias)
+                            @Html.DisplayFor(model => model.Alias)
+                        </div>
+                    </div>
+
+                    @if (Model.Parent != null)
+                    {
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                @Html.LabelFor(model => model.Parent)
+                                @Html.DisplayFor(model => model.Parent)
+                            </div>
+                        </div>
+                    }
+
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            @Html.LabelFor(model => model.CountChildCategories)
+                            @Html.DisplayFor(model => model.CountChildCategories)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            @Html.LabelFor(model => model.CountProducts)
+                            @Html.DisplayFor(model => model.CountProducts)
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="box-footer">
+                    @Html.ActionLink("Отмена", "Index", "Categories", null, new { @class = "btn btn-default" })
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+@section scripts{
+    <script>
+        $(function () {
+            $("#store").addClass("active");
+            $("#storecategories").addClass("active");
+            $("#storecategoriesall").addClass("active");
+        });
+    </script>
+}

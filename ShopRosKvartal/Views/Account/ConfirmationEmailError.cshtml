@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Ошибка процедуры подтверждения Email-адреса";
+}
+
+<section id="blog" class="container">
+    <div class="center">
+        <h1>@ViewBag.Title</h1>
+        <p class="lead">Невозможно выполнить подтверждение Email-адреса!</p>
+        <p class="lead">Пользователь или активационный код несуществуют!</p>
+        @Html.ActionLink("На главную", "Index", "Home", null, new { @class = "btn btn-primary" })
+    </div>
+</section>
